@@ -22,7 +22,8 @@ import gc
 import cv2
 
 cudnn.benchmark = True
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 parser = argparse.ArgumentParser(description='Attention Concatenation Volume for Accurate and Efficient Stereo Matching (ACVNet)')
 parser.add_argument('--model', default='acvnet', help='select a model structure', choices=__models__.keys())
@@ -39,9 +40,11 @@ parser.add_argument('--lrepochs',default="20,32,40,48,56:2", type=str,  help='th
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
 parser.add_argument('--freeze_attention_weights', default=False, type=str,  help='freeze attention weights parameters')
 #parser.add_argument('--lrepochs',default="300,500:2", type=str,  help='the epochs to decay lr: the downscale rate')
-parser.add_argument('--logdir',default='', help='the directory to save logs and checkpoints')
-parser.add_argument('--loadckpt', default='./pretrained_model/pretrained_model_sceneflow.ckpt',help='load the weights from a specific checkpoint')
+
+parser.add_argument('--logdir',default='./logs', help='the directory to save logs and checkpoints')
+#parser.add_argument('--loadckpt', default='./pretrained_model/pretrained_model_sceneflow.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--resume', action='store_true', help='continue training the model')
+
 parser.add_argument('--seed', type=int, default=1, metavar='S', help='random seed (default: 1)')
 parser.add_argument('--summary_freq', type=int, default=20, help='the frequency of saving summary')
 parser.add_argument('--save_freq', type=int, default=1, help='the frequency of saving checkpoint')
@@ -83,6 +86,7 @@ if args.resume:
     model.load_state_dict(state_dict['model'])
     optimizer.load_state_dict(state_dict['optimizer'])
     start_epoch = state_dict['epoch'] + 1
+'''
 elif args.loadckpt:
     # load the checkpoint file specified by args.loadckpt
     print("loading model {}".format(args.loadckpt))
@@ -92,7 +96,7 @@ elif args.loadckpt:
     model_dict.update(pre_dict) 
     model.load_state_dict(model_dict)
 print("start at epoch {}".format(start_epoch))
-
+'''
 
 def train():
     for epoch_idx in range(start_epoch, args.epochs):

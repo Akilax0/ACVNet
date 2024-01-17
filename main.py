@@ -41,7 +41,7 @@ parser.add_argument('--attention_weights_only', default=False, type=str,  help='
 parser.add_argument('--freeze_attention_weights', default=False, type=str,  help='freeze attention weights parameters')
 #parser.add_argument('--lrepochs',default="300,500:2", type=str,  help='the epochs to decay lr: the downscale rate')
 
-parser.add_argument('--logdir',default='./logs', help='the directory to save logs and checkpoints')
+parser.add_argument('--logdir',default='./logs/third', help='the directory to save logs and checkpoints')
 #parser.add_argument('--loadckpt', default='./pretrained_model/pretrained_model_sceneflow.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--resume', action='store_true', help='continue training the model')
 
@@ -87,7 +87,7 @@ if args.resume:
     optimizer.load_state_dict(state_dict['optimizer'])
     start_epoch = state_dict['epoch'] + 1
 '''
-elif args.loadckpt:
+if args.loadckpt:
     # load the checkpoint file specified by args.loadckpt
     print("loading model {}".format(args.loadckpt))
     state_dict = torch.load(args.loadckpt)
